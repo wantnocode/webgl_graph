@@ -1,0 +1,16 @@
+node_modules
+*.tgz
+*.log
+*.swp
+.DS_Store
+.idea
+.vscode
+package-lock.json
+.gitignore
+.github
+.npmignore
+examples
+test
+website
+webpack.config.js
+webpack.programs.config.js

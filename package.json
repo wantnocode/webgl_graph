@@ -1,0 +1,113 @@
+{
+  "name": "sigma",
+  "version": "2.0.0-beta13",
+  "description": "A JavaScript library dedicated to graph drawing.",
+  "homepage": "http://sigmajs.org",
+  "bugs": "http://github.com/jacomyal/sigma.js/issues",
+  "main": "index.js",
+  "scripts": {
+    "build": "webpack --progress && webpack --progress --mode production",
+    "clean": "rimraf $npm_package_config_clean",
+    "transpile": "tsc -p ./tsconfig.transpile.json -d && replace '\\.glsl' '.glsl.js' rendering -r && webpack --config ./webpack.programs.config.js",
+    "gitignore": "jq -r '.sigma.clean' package.json | tr ' ' '\\n' >> .gitignore",
+    "lint": "eslint $npm_package_config_folders --ext .ts",
+    "postpublish": "npm run clean",
+    "prettier": "prettier --write $npm_package_config_folders",
+    "prepare": "npm run clean && npm run transpile && npm run build && npm run examples:prepare",
+    "prepublishOnly": "npm run lint && npm run test && npm run e2e:test",
+    "reinstall": "rimraf examples/node_modules && rimraf node_modules && npm i && npm run clean",
+    "test": "mocha --require ts-node/register ./test/unit/**/*.ts",
+    "e2e:test": "mocha --require ts-node/register ./test/e2e/**/*.spec.ts",
+    "e2e:generate": "node -r ts-node/register test/e2e/generate.ts",
+    "examples:prepare": "cd examples && npm install",
+    "website:prepare": "cd website && npm install",
+    "website:start": "cd website && npm run dev",
+    "website:build": "cd website && npm run build-all"
+  },
+  "config": {
+    "clean": "core rendering utils index.js index.d.ts settings.js settings.d.ts sigma.js sigma.d.ts types.js types.d.ts",
+    "folders": "examples src test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "http://github.com/jacomyal/sigma.js.git"
+  },
+  "contributors": [
+    {
+      "name": "Alexis Jacomy",
+      "url": "http://github.com/jacomyal"
+    },
+    {
+      "name": "Guillaume Plique",
+      "url": "http://github.com/Yomguithereal"
+    },
+    {
+      "name": "Benoît Simard",
+      "url": "http://github.com/sim51"
+    }
+  ],
+  "license": "MIT",
+  "dependencies": {
+    "@yomguithereal/helpers": "^1.1.1",
+    "events": "^3.3.0",
+    "graphology-metrics": "1.14.2",
+    "graphology-utils": "^2.1.1"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.15.8",
+    "@types/chai": "^4.2.22",
+    "@types/mocha": "^9.0.0",
+    "@types/pixelmatch": "^5.2.4",
+    "@types/pngjs": "^6.0.1",
+    "@types/tapable": "^2.2.2",
+    "@types/webpack-dev-server": "^4.3.0",
+    "@typescript-eslint/eslint-plugin": "^4.32.0",
+    "@typescript-eslint/parser": "^4.32.0",
+    "babel-eslint": "^10.1.0",
+    "babel-loader": "^8.2.2",
+    "chai": "^4.3.4",
+    "eslint": "^7.32.0",
+    "glob": "^7.2.0",
+    "graphology": "^0.21.0",
+    "graphology-generators": "^0.11.0",
+    "graphology-layout": "^0.4.0",
+    "graphology-types": "^0.19.5",
+    "html-webpack-plugin": "^5.3.2",
+    "mocha": "^9.1.2",
+    "pandemonium": "^2.0.0",
+    "pixelmatch": "^5.2.1",
+    "pngjs": "^6.0.0",
+    "prettier": "^2.4.1",
+    "puppeteer": "^10.4.0",
+    "raw-loader": "^4.0.2",
+    "replace": "^1.2.1",
+    "rimraf": "^3.0.2",
+    "ts-loader": "^9.2.6",
+    "ts-node": "^10.2.1",
+    "typescript": "^4.4.3",
+    "webpack": "^5.57.1",
+    "webpack-cli": "^4.9.0",
+    "webpack-dev-server": "^4.3.1"
+  },
+  "keywords": [
+    "graph",
+    "graphology",
+    "renderer",
+    "sigma",
+    "canvas",
+    "webgl"
+  ],
+  "eslintConfig": {
+    "parser": "@typescript-eslint/parser",
+    "plugins": [
+      "@typescript-eslint"
+    ],
+    "extends": [
+      "plugin:@typescript-eslint/recommended"
+    ],
+    "rules": {
+      "@typescript-eslint/camelcase": "off",
+      "@typescript-eslint/no-empty-interface": "off"
+    }
+  }
+}
